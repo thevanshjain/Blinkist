@@ -3,7 +3,7 @@ import CustomButton from './CustomButton';
 
 
 export default {
-    title: 'atom/button',
+    title: 'atom/button/simpleButton',
     component: CustomButton,
     args:{
         value: "Stories"
@@ -11,8 +11,8 @@ export default {
 }
 const Template = args => <CustomButton {...args} />
 
-export const ButtonStory = Template.bind({})
+export const simpleButton = Template.bind({})
 
-ButtonStory.args = {
+simpleButton.args = {
     color: "secondary"
 }

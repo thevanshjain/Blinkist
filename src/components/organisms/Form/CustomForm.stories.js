@@ -10,3 +10,6 @@ const Template = (args) => <CustomForm {...args} />
 
 export const Form = Template.bind({});
 
+Form.args = {
+    openForm: false, 
+}

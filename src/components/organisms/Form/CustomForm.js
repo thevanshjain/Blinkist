@@ -1,101 +1,101 @@
-import React, { useState } from "react";
+import React from "react";
 import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { data } from "../../../booksData";
+
+import { makeStyles } from '@material-ui/core/styles';
+import DialogContent from "@material-ui/core/DialogContent";
+
 import CustomButton from "../../atoms/Button/CustomButton";
 import CustomInput from "../../atoms/Input/CustomInput";
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import "./CustomForm.css";
 
-export default function CustomForm() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    marginTop: 25,
+    // minWidth: 120,
+  },
+  selectEmpty: {
+    // marginTop: theme.spacing(2),
+  },
+}));
 
-  const [inputField, setInputField] = useState({
-    url: "",
-    name: "",
-    author: "",
-    readingTime: "",
-    totalReads: "",
-  });
+const CustomForm = ({ openForm, closeForm }) => {
+  const classes = useStyles();
+  return(
+  <div>
+    <Dialog
+      open={openForm}
+      onClose={closeForm}
+      aria-labelledby="form-dialog-title"
+      
+    >
+      <DialogTitle id="form-dialog-title">Add Book <span onClick={closeForm} style={{float: "right", cursor:"pointer"}}>X</span></DialogTitle>
+      
+      <DialogContent>
+        {/* <Formik
+         
+          onSubmit={() => {
+            alert("Hello");
+          }}
+        >
+          {({ isSubmitting }) => ( */}
+            <form>
+              <label >Url<br/>
+              <CustomInput type="url" />
+              </label>
+              <br/>
+              <label className="formlabel">Book Name<br/>
+              <CustomInput type="text" style={{borderColor: "green"}}/>
+              </label>
+              <br/>
+              <br/>
+              <label className="formlabel">Author<br/>
+              <CustomInput type="text" />
+              </label>
 
-  const inputsHandler = (e) => {
-    setInputField({ [e.target.name]: e.target.value });
-  };
+              <br/>
+              <label className="formlabel" >Total Reads<br/>
+              <CustomInput type="number" />
+              </label>
+              <br/>
+              <label className="formlabel" >Reading Time<br/>
+              <CustomInput type="number" />
+              </label>
 
-  const handleSubmit = (e) => {
-    const book = {
-      url: inputField.url,
-      name: inputField.name,
-      author: inputField.author,
-      readingTime: inputField.readingTime,
-      totalReads: inputField.totalReads,
-    };
-    data.push(book);
+              <br/>
+              <label> Category
+              <FormControl variant="outlined"  className={classes.formControl}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select-outlined"
+                // value={inputField.category}
+                // onChange={handleSubmit}
 
-    e.preventDefault();
-    setOpen(false);
-  };
+                style={{marginLeft:"-66px", width: "235px", height: "40px"}}
+              >
+                <MenuItem value={"Education"}>Education</MenuItem>
+                <MenuItem value={"Nature"}>Nature</MenuItem>
+                <MenuItem value={"Religion"}>Religion</MenuItem>
+                <MenuItem value={"Money"}>Money</MenuItem>
+                <MenuItem value={"Motivation"}>Motivation</MenuItem>
+                <MenuItem value={"Biography"}>Biography</MenuItem>
+              </Select>
+            </FormControl>
+            </label>
+            <br/>
+            <div style={{float: "right", marginTop: "5px"}}>
+             <CustomButton type="submit" value="Submit" />
+             </div>
+            </form>
+          {/* )} */}
+        {/* </Formik> */}
+      </DialogContent>
+    </Dialog>
+  </div>
+)};
 
-  return (
-    <>
-      <CustomButton value="Add Book" click={handleOpen} color="" />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Add Book</DialogTitle>
-        <DialogContent>
-          <form>
-            <CustomInput
-              change={inputsHandler}
-              placeholder="Image Url"
-              value={inputField.url}
-              type="url"
-            />
-            <br />
-            <CustomInput
-              change={inputsHandler}
-              placeholder="Book Name"
-              value={inputField.name}
-              type="text"
-            />
-            <br />
-            <CustomInput
-              change={inputsHandler}
-              placeholder="Author"
-              value={inputField.author}
-              type="text"
-            />
-            <br />
-            <CustomInput
-              change={inputsHandler}
-              placeholder="Reading Time"
-              value={inputField.readingTime}
-              type="text"
-            />
-            <br />
-            <CustomInput
-              change={inputsHandler}
-              placeholder="Total Reads"
-              value={inputField.totalReads}
-              type="text"
-            />
-            <br />
-            <CustomButton
-              value="Cancel"
-              click={handleClose}
-              color="secondary"
-            />
-            <CustomButton value="Submit" click={handleSubmit} color="primary" />
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-}
+export default CustomForm;

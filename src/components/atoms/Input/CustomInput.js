@@ -1,11 +1,11 @@
 import React from 'react'
 import { TextField } from '@material-ui/core';
+import './CustomInput.css';
 
 
-
-function CustomInput({change, placeholder, value, type}) {
+function CustomInput({style, change, placeholder, value, type, variant="outlined"}) {
     return (
-        <TextField className="inputField" label={placeholder}  onChange={change} value={value} variant="outlined" margin="dense" type={type}/>
+        <TextField style={{style}} className="inputField" label={placeholder}  onChange={change} value={value} variant={variant} margin="dense" type={type}/>
     )
 }
 

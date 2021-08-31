@@ -10,8 +10,9 @@ import {
 } from "@material-ui/core";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import { data } from "../../../booksData";
-import './BookCard.css';
+import "./BookCard.css";
+import CustomButton from "../../atoms/Button/CustomButton";
+
 
 const useStyles = makeStyles({
   root: {
@@ -22,78 +23,79 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BookCard() {
+export default function BookCard({
+  url,
+  name,
+  author,
+  readingTime,
+  totalReads,
+  status,
+  category,
+  changeStatus
+}) {
   const classes = useStyles();
+
+  
 
   return (
     <>
-      {data.map((data) => {
-        return (
-          <div key={data.url} className="bookCard">
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={data.url}
-                  title="Book"
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="h4"
-                    style={{ textAlign: "left", fontSize: "15px" }}
-                    fontWeight="fontWeightBold"
-                  >
-                    {data.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    style={{ textAlign: "left", fontSize: "10px" }}
-                  >
-                    {data.author}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <AccessTimeIcon style={{ fontSize: "16px" }} />
-                <Typography
-                  variant="caption"
-                  display="block"
-                  style={{ fontSize: "8px" }}
-                  gutterBottom
-                >
-                  {data.readingTime}-minute read
-                </Typography>
-                <PersonOutlineIcon style={{ fontSize: "16px" }} />
-                <Typography
-                  variant="caption"
-                  display="block"
-                  style={{ fontSize: "8px" }}
-                  gutterBottom
-                >
-                  {data.totalReads} reads
-                </Typography>
-              </CardActions>
+      <div key={url} className="bookCard">
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia className={classes.media} image={url} title="Book" />
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="h4"
+                style={{ textAlign: "left", fontSize: "15px" }}
+                fontWeight="fontWeightBold"
+              >
+                {name.length > 40 ? name.substring(0, 40) + "..." : name}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                component="p"
+                style={{ textAlign: "left", fontSize: "10px" }}
+              >
+                {author.length > 20 ? author.substring(0, 20) + "..." : author}
+              </Typography>
+              <br/>
               <Typography
                 variant="caption"
-                display="block"
-                gutterBottom
+                color="textSecondary"
                 fontWeight="fontWeightBold"
-                style={{
-                  textAlign: "right",
-                  fontSize: "20px",
-                  marginRight: "5px",
-                }}
               >
-                ...
+                {category}
               </Typography>
-            </Card>
-          </div>
-        );
-      })}
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <AccessTimeIcon style={{ fontSize: "16px" }} />
+            <Typography
+              variant="caption"
+              display="block"
+              style={{ fontSize: "8px" }}
+              gutterBottom
+            >
+              {readingTime}-minute read
+            </Typography>
+            <PersonOutlineIcon style={{ fontSize: "16px" }} />
+            <Typography
+              variant="caption"
+              display="block"
+              style={{ fontSize: "8px" }}
+              gutterBottom
+            >
+              {totalReads} reads
+            </Typography>
+          </CardActions>
+
+          <hr />
+          <CustomButton value={status} variant="contained" click={changeStatus} style={{width: "100%"}}/>
+        </Card>
+      </div>
     </>
   );
 }
