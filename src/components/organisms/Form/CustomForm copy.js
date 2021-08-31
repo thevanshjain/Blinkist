@@ -50,8 +50,7 @@ export default function CustomForm({ openForm, closeForm }) {
       category: inputField.category
 
     };
-    data.push(book);
-    console.log(data);
+    console.log(book);
   };
 
   return (
@@ -101,7 +100,7 @@ export default function CustomForm({ openForm, closeForm }) {
             />
             <br />
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <InputLabel id="demo-simple-select-label" value={inputField.category} >Category</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"

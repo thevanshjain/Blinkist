@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     maxWidth: 200,
   },
   media: {
-    height: 140,
+    height: "200px",
   },
 });
 
@@ -51,7 +51,7 @@ export default function BookCard({
                 style={{ textAlign: "left", fontSize: "15px" }}
                 fontWeight="fontWeightBold"
               >
-                {name.length > 40 ? name.substring(0, 40) + "..." : name}
+                {name.length > 18? name.substring(0, 40) + "..." : name}
               </Typography>
               <Typography
                 variant="body2"

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 export default function CustomButton({style, type, disabled, variant="contained", click, value,color, displayType}) {
   const classes = useStyles();
     return (
-        <Button  type={type} className={classes.button} disabled={disabled} variant={variant} color={color} onClick={click} style={{display: displayType, ...style}}>
+        <Button type={type} className={classes.button} disabled={disabled} variant={variant} color={color} onClick={click} style={{display: displayType, ...style}}>
         {value}
       </Button>
     )

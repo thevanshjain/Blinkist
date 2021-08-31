@@ -10,12 +10,19 @@ import CustomInput from "../../atoms/Input/CustomInput";
 import LoginButton from "../../atoms/Button/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "../../atoms/Button/LogoutButton";
+import "./Tab.css";
+import StatusTabs from "../StatusTabs/StatusTabs";
 
+import BookCard from "../../molecules/Card/BookCard";
 
 function Tab() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openForm, setOpenForm] = useState(false);
-  const { user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+  const [exploredValue, setExploredValue] = useState(null);
+  const [searchedValue, setSearchedValue] = useState(null);
+  const [newBook, setNewBook] = useState(null);
+  const [toggleLibrary, setToggleLibrary] = useState(true);
 
   const handleOpen = () => {
     setOpenForm(true);
@@ -25,39 +32,138 @@ function Tab() {
   };
 
   const toggleSearch = () => {
-      setOpenSearchBar(!openSearchBar);
-    };
-    
-    return (
-        <>
-        <div style={{ float: "right", color: "black", marginTop: "15px"}}>
-            {isAuthenticated ? <h4 style={{display: "inline"}}>{user.name}   <LogoutButton /></h4>  :  <LoginButton />}
-            
-        </div>
+    setOpenSearchBar(!openSearchBar);
+  };
+
+  const explorerValue = (value) => {
+    setExploredValue(value);
+    setToggleLibrary(false);
+  };
+
+  const searchValue = (event) => {
+    setSearchedValue(event.target.value);
+  };
+  const manipulateForm = (data) => {
+    setNewBook(data);
+  };
+
+  const changeStatus = (url) => {};
+
+  const myLibrary = () => {
+    setToggleLibrary(true);
+  };
+
+  return (
+    <>
+      <div style={{ float: "right", color: "black", marginTop: "13px" , marginRight: "150px"}}>
+        {isAuthenticated ? (
+          <h4 style={{ display: "inline" }}>
+            {user.given_name}{" "}
+            <span className="logOutButton">
+              <LogoutButton />
+            </span>
+          </h4>
+        ) : (
+          <LoginButton />
+        )}
+      </div>
       <AppBar
         position="static"
-        style={{ background: "none", boxShadow: "none" , display: "inline"}}
+        style={{ background: "none", boxShadow: "none", display: "inline" }}
       >
         <Toolbar>
           <Image src={img} alt="logo" />
           <SearchLogo onClick={() => toggleSearch()} />
           {!openSearchBar && (
             <>
-              <Explorer />
-              <BarButton value="My Library" />
+              <Explorer
+                addBook={newBook}
+                exploredValue={(value) => explorerValue(value)}
+              />
+              <BarButton value="My Library" click={myLibrary} />
               <BarButton value="Add Book" click={handleOpen} />
-              <CustomForm openForm={openForm} closeForm={handleClose} />
+              <CustomForm
+                openForm={openForm}
+                closeForm={handleClose}
+                formData={(data) => manipulateForm(data)}
+              />
             </>
           )}
           {openSearchBar && (
-              <CustomInput
+            <CustomInput
               variant="standard"
-              placeholder="Search "
-            
-                />
-              )}
+              placeholder="Search"
+              change={(value) => searchValue(value)}
+            />
+          )}
         </Toolbar>
       </AppBar>
+
+      {toggleLibrary ? (
+        <>
+          <h2 style={{ marginTop: "50px" }}> My Library </h2>
+          <div style={{ marginTop: "40px" }}>
+            <StatusTabs search={searchedValue} newBook={newBook} />
+          </div>
+        </>
+      ) : (
+        <>
+        {exploredValue!==null ?
+            <>
+         <h2 style={{ marginTop: "50px" }}> {exploredValue[0].category} </h2>
+          <div style={{ marginTop: "40px" }}>
+            {exploredValue.map((data) => {
+              return (
+                <BookCard
+                  author={data.author}
+                  name={data.name}
+                  readingTime={data.readingTime}
+                  totalReads={data.totalReads}
+                  url={data.url}
+                  status={data.status}
+                  category={data.category}
+                  changeStatus={() => changeStatus(data.url)}
+                />
+              );
+            })}
+          </div>
+        </>:<></>
+        }
+    </>
+    )}
+      {/* {exploredValue === null ? (
+        <>
+          <h2 style={{ marginTop: "50px" }}> My Library </h2>
+          <div style={{ marginTop: "40px" }}>
+            <StatusTabs search={searchedValue} newBook={newBook} />
+          </div>
+        </>
+      ) : (
+        <>
+          <h2 style={{ marginTop: "50px" }}> {exploredValue[0].category} </h2>
+          <div style={{ marginTop: "40px" }}>
+            {exploredValue.map((data) => {
+              return (
+                <BookCard
+                  author={data.author}
+                  name={data.name}
+                  readingTime={data.readingTime}
+                  totalReads={data.totalReads}
+                  url={data.url}
+                  status={data.status}
+                  category={data.category}
+                  changeStatus={() => changeStatus(data.url)}
+                />
+              );
+            })}
+          </div>
+        </>
+      )} */}
+      {/* <h2 style={{ marginTop: "50px" }}> My Library </h2>
+      <div style={{ marginTop: "40px" }}> */}
+
+      {/* <StatusTabs explore={exploredValue} search={searchedValue} newBook={newBook}/> */}
+      {/* </div> */}
     </>
   );
 }

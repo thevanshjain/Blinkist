@@ -3,10 +3,14 @@ import MyLibrary from "./components/organisms/Library/MyLibrary.js";
 
 function App() {
   return (
-    <Container maxWidth="md">
+//     'lg'
+// | 'md'
+// | 'sm'
+// | 'xl'
+// | 'xs'
+    <Container maxWidth="md" style={{marginLeft: "220px"}}>
       <MyLibrary />
-   
-    </Container>
+       </Container>
   );
 }
 
