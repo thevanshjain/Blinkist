@@ -31,7 +31,8 @@ export default function BookCard({
   totalReads,
   status,
   category,
-  changeStatus
+  changeStatus,
+  disabled
 }) {
   const classes = useStyles();
 
@@ -92,9 +93,16 @@ export default function BookCard({
             </Typography>
           </CardActions>
 
+          {status!=='Already in Library' ?
+          <>
           <hr />
-          <CustomButton value={status} variant="contained" click={changeStatus} style={{width: "100%"}}/>
+          <CustomButton value={status} variant="contained" disabled={disabled} click={changeStatus} style={{width: "100%"}}/> 
+            </>
+          :
+          <></>
+           }
         </Card>
+       
       </div>
     </>
   );

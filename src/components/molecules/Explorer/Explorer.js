@@ -50,7 +50,7 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-function Explorer({ exploredValue, addBook }) {
+function Explorer({ exploredValue, addBook, explorerStatus }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isExploreToggle, setIsExploreToggle] = useState(false);
 
@@ -64,6 +64,15 @@ function Explorer({ exploredValue, addBook }) {
       totalReads: "7.1k",
       category: "Entrepreneurship",
       status:"Add to library"
+    },
+    {
+      url: "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
+      name: "How to Take Smart Notes",
+      author: "Sönke Ahrens",
+      readingTime: "15",
+      totalReads: "17.1k",
+      category: "Entrepreneurship",
+      status: "Already in Library"
     },
     {
       url:
@@ -144,6 +153,16 @@ function Explorer({ exploredValue, addBook }) {
       category: "Money",
       status:"Add to library"
     },
+    {
+      url:
+        "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
+      name: "Make Money Trading Options",
+      author: "Michael Sincere",
+      readingTime: "30",
+      totalReads: "1.1k",
+      category: "Money",
+      status: "Already in Library"
+    },
   ]);
 
   const [motivation, setMotivation] = useState([
@@ -190,6 +209,16 @@ function Explorer({ exploredValue, addBook }) {
       category: "Biography",
       status:"Add to library"
     },
+    {
+      url:
+        "https://images.blinkist.io/images/books/61290aa96cee070007d29076/1_1/470.jpg",
+      name: "Bedtime Biography: Madame Curie",
+      author: "Eve Curie",
+      readingTime: "25",
+      totalReads: "57.1k",
+      category: "Biography",
+      status: "Already in Library"
+    },
   ]);
 
   const handleClick = (event) => {
@@ -212,7 +241,7 @@ function Explorer({ exploredValue, addBook }) {
     else if (event === "motivation") exploredValue(motivation);
     else if (event === "money") exploredValue(money);
     else if (event === "biography") exploredValue(biography);
-    else exploredValue(null, null);
+    else exploredValue(null);
   };
 
 
@@ -232,6 +261,42 @@ function Explorer({ exploredValue, addBook }) {
       setBiography((prev)=>[...prev, addBook]);
     }
   }, [addBook])
+
+  useEffect(() => {
+    if(explorerStatus!==null && explorerStatus!==undefined){
+    const {category, data} =explorerStatus;
+    if(category.toLowerCase() === "entrepreneurship"){
+        const index=entrepreneurship.indexOf(data);
+        entrepreneurship[index].status="Already in Library";
+       
+    }
+    else  if(category.toLowerCase() === "nature"){
+      
+      const index=nature.indexOf(data);
+      nature[index].status="Already in Library";
+    }
+    else if(category.toLowerCase() === "religion"){
+      
+      const index=religion.indexOf(data);
+      religion[index].status="Already in Library";
+    }
+    else if(category.toLowerCase() === "money"){
+      
+      const index=money.indexOf(data);
+      money[index].status="Already in Library";
+    }
+    else if(category.toLowerCase() === "motivation"){
+      
+      const index=motivation.indexOf(data);
+      motivation[index].status="Already in Library";
+    }
+    else if(category.toLowerCase() === "biography"){
+      const index=biography.indexOf(data);
+      biography[index].status="Already in Library";
+    }
+
+    }
+  }, [explorerStatus, entrepreneurship, nature, religion, motivation, money, biography])
 
   return (
     <>

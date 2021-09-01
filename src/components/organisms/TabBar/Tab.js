@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Image from "../../atoms/Image/Image";
 import img from "../../atoms/Image/Image.png";
@@ -23,6 +23,7 @@ function Tab() {
   const [searchedValue, setSearchedValue] = useState(null);
   const [newBook, setNewBook] = useState(null);
   const [toggleLibrary, setToggleLibrary] = useState(true);
+  const [explorerStatus, setExplorerStatus] = useState(null);
 
   const handleOpen = () => {
     setOpenForm(true);
@@ -47,12 +48,16 @@ function Tab() {
     setNewBook(data);
   };
 
-  const changeStatus = (url) => {};
+  const changeStatus = (category, data) => {
+    setExplorerStatus({category: category, data:data});
+  };
 
   const myLibrary = () => {
     setToggleLibrary(true);
   };
-
+  useEffect(() => {
+    
+  }, [newBook, exploredValue])
   return (
     <>
       <div style={{ float: "right", color: "black", marginTop: "13px" , marginRight: "150px"}}>
@@ -69,7 +74,7 @@ function Tab() {
       </div>
       <AppBar
         position="static"
-        style={{ background: "none", boxShadow: "none", display: "inline" }}
+        style={{ background: "none", boxShadow: "none", display: "inline"}}
       >
         <Toolbar>
           <Image src={img} alt="logo" />
@@ -79,6 +84,7 @@ function Tab() {
               <Explorer
                 addBook={newBook}
                 exploredValue={(value) => explorerValue(value)}
+                explorerStatus={explorerStatus}
               />
               <BarButton value="My Library" click={myLibrary} />
               <BarButton value="Add Book" click={handleOpen} />
@@ -101,9 +107,9 @@ function Tab() {
 
       {toggleLibrary ? (
         <>
-          <h2 style={{ marginTop: "50px" }}> My Library </h2>
+          <h2 style={{ marginTop: "50px", marginLeft:"10px" }}> My Library </h2>
           <div style={{ marginTop: "40px" }}>
-            <StatusTabs search={searchedValue} newBook={newBook} />
+            <StatusTabs search={searchedValue} explorerStatus={explorerStatus}/>
           </div>
         </>
       ) : (
@@ -113,6 +119,7 @@ function Tab() {
          <h2 style={{ marginTop: "50px" }}> {exploredValue[0].category} </h2>
           <div style={{ marginTop: "40px" }}>
             {exploredValue.map((data) => {
+              if(data.status==='Already in Library')
               return (
                 <BookCard
                   author={data.author}
@@ -122,9 +129,23 @@ function Tab() {
                   url={data.url}
                   status={data.status}
                   category={data.category}
-                  changeStatus={() => changeStatus(data.url)}
+                  disabled="disabled"
                 />
               );
+              else
+              return (
+                <BookCard
+                  author={data.author}
+                  name={data.name}
+                  readingTime={data.readingTime}
+                  totalReads={data.totalReads}
+                  url={data.url}
+                  status={data.status}
+                  category={data.category}
+                  changeStatus={()=>changeStatus(data.category, data)}
+                />
+              );
+
             })}
           </div>
         </>:<></>

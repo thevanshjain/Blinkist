@@ -21,7 +21,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={2}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -45,35 +45,34 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "white",
-    color: "black",
-    width: 500,
+    color: "green",
+    textColor: "green",
+    textDecorationColor:"green",
+    width: 680,
   },
 }));
 
-export default function StatusTabs({ explore, search}) {
+export default function StatusTabs({ search, explorerStatus}) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const [exploreValueCurrent, setExploreValueCurrent] = useState();
-  const [exploreValueFinish, setExploreValueFinish] = useState();
   const [searchValueCurrent, setSearchValueCurrent] = useState();
   const [searchValueFinish, setSearchValueFinish] = useState();
 
   const [current, setCurrent] = useState([
     {
-      url:
-        "https://images.unsplash.com/photo-1615665598671-053520c11811?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzZ8fGJvb2t8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-      name: "Building an Inclusive Organization",
-      author: "Stephen Frost, Raafi-Karim...",
+      url: "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
+      name: "How to Take Smart Notes",
+      author: "Sönke Ahrens",
       readingTime: "15",
       totalReads: "17.1k",
-      category: "Education",
+      category: "Entrepreneurship",
     },
     {
       url:
-        "https://images.unsplash.com/photo-1476275466078-4007374efbbe?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzF8fGJvb2t8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-      name: "Mein Kampf: Struggle of my life",
-      author: "Adolf Hitler",
+        "https://images.blinkist.io/images/books/61290aa96cee070007d29076/1_1/470.jpg",
+      name: "Bedtime Biography: Madame Curie",
+      author: "Eve Curie",
       readingTime: "25",
       totalReads: "57.1k",
       category: "Biography",
@@ -83,14 +82,20 @@ export default function StatusTabs({ explore, search}) {
   const [finished, setFinished] = useState([
     {
       url:
-        "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Ym9va3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-      name: "Building an Exclusive Organization",
-      author: "Stephen Frost, Raafi-Karim...",
+        "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
+      name: "Make Money Trading Options",
+      author: "Michael Sincere",
       readingTime: "30",
       totalReads: "1.1k",
-      category: "Motivation",
+      category: "Money",
     },
   ]);
+
+useEffect(() => {
+  if(explorerStatus!==null)
+  setCurrent(prev=>[...prev, explorerStatus.data])
+ 
+}, [explorerStatus])
 
   // React.useEffect(() => {
   //   if (explore !== null) {
@@ -113,15 +118,15 @@ export default function StatusTabs({ explore, search}) {
           item.author.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
           item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
       );
-      setSearchValueCurrent(booksFoundCurrent.length);
-
+      setSearchValueCurrent(booksFoundCurrent);
+      
       const booksFoundFinished = finished.filter(
         (item) =>
           item.author.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
           item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
       );
-
-      setSearchValueFinish(booksFoundFinished.length);
+      
+      setSearchValueFinish(booksFoundFinished);
     }
   }, [search, current, finished]);
 
@@ -172,8 +177,8 @@ export default function StatusTabs({ explore, search}) {
           value={value}
           TabIndicatorProps={{
             style: {
-              backgroundColor: "green",
-              color: "green",
+              backgroundColor: "#22C870",
+              color: "#22C870"
             },
           }}
           onChange={handleChange}
@@ -183,12 +188,12 @@ export default function StatusTabs({ explore, search}) {
           aria-label="full width tabs example"
         >
           <Tab
-            style={{ color: "black", textTransform: "none" }}
+            style={{ color:"black", textTransform: "none", width: "286.33px" }}
             label="Currently Reading"
             {...a11yProps(0)}
           />
           <Tab
-            style={{ color: "black", textTransform: "none" }}
+            style={{ color:"black", textTransform: "none" }}
             label="Finished"
             {...a11yProps(1)}
           />
@@ -200,10 +205,22 @@ export default function StatusTabs({ explore, search}) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {current.length === 0 ||
-          exploreValueCurrent === 0 ||
-          searchValueCurrent === 0 ? (
-            <h4>No book found !!</h4>
+          {/* {current.length === 0 || */}
+          {search!==null && searchValueCurrent !== undefined && searchValueCurrent!==null ? (
+            searchValueCurrent.map((data) => {
+              return (
+                <BookCard
+                  author={data.author}
+                  name={data.name}
+                  readingTime={data.readingTime}
+                  totalReads={data.totalReads}
+                  url={data.url}
+                  status="Finished Reading"
+                  category={data.category}
+                  changeStatus={() => changeStatus(data.url, "reading")}
+                />
+              );
+            })
           ) : (
             current.map((data) => {
               return (
@@ -222,10 +239,21 @@ export default function StatusTabs({ explore, search}) {
           )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {finished.length === 0 ||
-          exploreValueFinish === 0 ||
-          searchValueFinish === 0 ? (
-            <h4>No book found!!</h4>
+          {/* {finished.length === 0 || */}
+          {search!==null && searchValueFinish!== undefined && searchValueFinish!==null ? (
+              searchValueFinish.map((data) => {
+                return (
+                  <BookCard
+                    author={data.author}
+                    name={data.name}
+                    readingTime={data.readingTime}
+                    totalReads={data.totalReads}
+                    url={data.url}
+                    status="Read again"
+                    category={data.category}
+                    changeStatus={() => changeStatus(data.url, "finish")}
+                  />
+                )})
           ) : (
             finished.map((data) => {
               return (

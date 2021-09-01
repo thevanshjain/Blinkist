@@ -174,7 +174,7 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
                     height: "40px",
                   }}
                 >
-                  <MenuItem value={"Education"}>Education</MenuItem>
+                  <MenuItem value={"Entrepreneurship"}>Entrepreneurship</MenuItem>
                   <MenuItem value={"Nature"}>Nature</MenuItem>
                   <MenuItem value={"Religion"}>Religion</MenuItem>
                   <MenuItem value={"Money"}>Money</MenuItem>
