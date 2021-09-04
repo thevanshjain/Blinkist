@@ -1,26 +1,19 @@
-import { Container, ThemeProvider} from "@material-ui/core";
-import MyLibrary from "./components/organisms/Library/MyLibrary.js";
-import {Theme} from "./Theme/Theme";
+import { Container, ThemeProvider } from "@material-ui/core";
+import Tab from "./components/organisms/TabBar/Tab.js";
+import { Theme } from "./Theme/Theme";
 function App() {
   return (
-//     'lg'
-// | 'md'
-// | 'sm'
-// | 'xl'
-// | 'xs'
-<ThemeProvider theme={Theme}>
-    <Container maxWidth="md" style={{marginLeft: "220px"}}>
-      <MyLibrary />
-       </Container>
-       </ThemeProvider>
+    //     'lg'
+    // | 'md'
+    // | 'sm'
+    // | 'xl'
+    // | 'xs'
+    <ThemeProvider theme={Theme}>
+      <Container data-testid="appContainer" maxWidth="md" style={{ marginLeft: "220px" }}>
+        <Tab />
+      </Container>
+    </ThemeProvider>
   );
 }
 
 export default App;
-
-
-
-
-
-
-

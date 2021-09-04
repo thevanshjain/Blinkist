@@ -15,5 +15,8 @@ Card.args = {
     name: "A book full of home",
     author: "Herbert",
     readingTime: '200',
-    totalReads: '10K'
+    totalReads: '10K',
+    category: "Personal Care",
+    status: "Reading"
+
 }

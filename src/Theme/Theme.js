@@ -7,6 +7,18 @@ export const Theme = createTheme({
       main: '#22C870'
     },
   },
+  overrides:{
+    
+    MuiTab:{
+      root:{
+        width: "210px",
+      }
+    }
+    
+  },
+  typography:{
+    fontFamily: 'raleway'
+  }
 });
 
 

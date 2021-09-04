@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { data } from "../../../booksData";
 import CustomButton from "../../atoms/Button/CustomButton";
 import CustomInput from "../../atoms/Input/CustomInput";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import "./CustomForm.css";
-
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -33,7 +32,6 @@ export default function CustomForm({ openForm, closeForm }) {
     readingTime: "",
     totalReads: "",
     category: "",
-
   });
 
   const inputsHandler = (e) => {
@@ -47,8 +45,7 @@ export default function CustomForm({ openForm, closeForm }) {
       author: inputField.author,
       readingTime: inputField.readingTime,
       totalReads: inputField.totalReads,
-      category: inputField.category
-
+      category: inputField.category,
     };
     console.log(book);
   };
@@ -100,7 +97,12 @@ export default function CustomForm({ openForm, closeForm }) {
             />
             <br />
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label" value={inputField.category} >Category</InputLabel>
+              <InputLabel
+                id="demo-simple-select-label"
+                value={inputField.category}
+              >
+                Category
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -115,11 +117,10 @@ export default function CustomForm({ openForm, closeForm }) {
                 <MenuItem value={"Biography"}>Biography</MenuItem>
               </Select>
             </FormControl>
-            
           </form>
         </DialogContent>
         <CustomButton value="Cancel" click={closeForm} color="secondary" />
-            <CustomButton value="Submit" click={handleSubmit} color="primary" />
+        <CustomButton value="Submit" click={handleSubmit} color="primary" />
       </Dialog>
     </>
   );

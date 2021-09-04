@@ -1,0 +1,200 @@
+{
+    "current": [
+      {
+        "id": 20,
+        "url": "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
+        "name": "How to Take Smart Notes: By Sönke Ahrens",
+        "author": "Sönke Ahrens",
+        "readingTime": "15",
+        "totalReads": "17.1k",
+        "category": "Entrepreneurship",
+        "status": "Already in Library"
+      },
+      {
+        "id": 1,
+        "url": "https://images.blinkist.io/images/books/61290aa96cee070007d29076/1_1/470.jpg",
+        "name": "Bedtime Biography: Madame Curie",
+        "author": "Eve Curie",
+        "readingTime": "25",
+        "totalReads": "57.1k",
+        "category": "Biography",
+        "status": "Already in Library"
+      }
+     
+     
+    ],
+    "finish": [
+      {
+        "id": 2,
+        "url": "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
+        "name": "Make Money Trading Options",
+        "author": "Michael Sincere",
+        "readingTime": "30",
+        "totalReads": "1.1k",
+        "category": "Money",
+        "status": "Already in Library"
+      }
+    ],
+    "entrepreneurship": [
+      {
+        "id": 3,
+        "url": "https://images.blinkist.io/images/books/611fc7fe6cee070007cf6a57/1_1/470.jpg",
+        "name": "The Entrepreneur's Weekly Nietzsche",
+        "author": "Dave Jilk and Brad Feld",
+        "readingTime": "12",
+        "totalReads": "7.1k",
+        "category": "Entrepreneurship",
+        "status": "Add to library"
+      },
+      {
+        "id": 20,
+        "url": "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
+        "name": "How to Take Smart Notes: By Sönke Ahrens",
+        "author": "Sönke Ahrens",
+        "readingTime": "15",
+        "totalReads": "17.1k",
+        "category": "Entrepreneurship",
+        "status": "Already in Library"
+      },
+      {
+        "id": 4,
+        "url": "https://images.blinkist.io/images/books/61162f886cee070007535b4d/1_1/470.jpg",
+        "name": "The Common Path to Uncommon Success",
+        "author": "John Lee Dumas",
+        "readingTime": "15",
+        "totalReads": "7.1k",
+        "category": "Entrepreneurship",
+        "status": "Add to library"
+      }
+    ],
+    "nature": [
+      {
+        "id": 5,
+        "url": "https://images.blinkist.io/images/books/611fc0e96cee070007060334/1_1/470.jpg",
+        "name": "This Is Your Mind on Plants",
+        "author": "Michael Pollan",
+        "readingTime": "13",
+        "totalReads": "8k",
+        "category": "Nature",
+        "status": "Add to library"
+      },
+      {
+        "id": 6,
+        "url": "https://images.blinkist.io/images/books/61162f886cee070007535b4d/1_1/470.jpg",
+        "name": "Finding the Mother Tree: By Suzanne Simard",
+        "author": "Suzanne Simard",
+        "readingTime": "16",
+        "totalReads": "10k",
+        "category": "Nature",
+        "status": "Add to library"
+      }
+    ],
+    "religion": [
+      {
+        "id": 7,
+        "url": "https://images.blinkist.io/images/books/60d58ddb6cee0700074ab74b/1_1/470.jpg",
+        "name": "What Would You Do If You Weren't Afraid?",
+        "author": "Michal Oshman",
+        "readingTime": "10",
+        "totalReads": "6k",
+        "category": "Religion",
+        "status": "Add to library"
+      },
+      {
+        "id": 8,
+        "url": "https://images.blinkist.io/images/books/61162f886cee070007535b4d/1_1/470.jpg",
+        "name": "Winning the War in Your Mind",
+        "author": "Craig Groeschel",
+        "readingTime": "13",
+        "totalReads": "8k",
+        "category": "Religion",
+        "status": "Add to library"
+      }
+    ],
+    "money": [
+      {
+        "id": 9,
+        "url": "https://images.blinkist.io/images/books/60d58ddb6cee0700074ab74b/1_1/470.jpg",
+        "name": "The Price You Pay for College",
+        "author": "Ron Lieber",
+        "readingTime": "12",
+        "totalReads": "7k",
+        "category": "Money",
+        "status": "Add to library"
+      },
+      {
+        "id": 10,
+        "url": "https://images.blinkist.io/images/books/604b2d436cee070007937971/1_1/470.jpg",
+        "name": "Know Yourself, Know Your Money",
+        "author": "Rachel Cruze",
+        "readingTime": "16",
+        "totalReads": "10k",
+        "category": "Money",
+        "status": "Add to library"
+      },
+      {
+        "id": 2,
+        "url": "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
+        "name": "Make Money Trading Options",
+        "author": "Michael Sincere",
+        "readingTime": "30",
+        "totalReads": "1.1k",
+        "category": "Money",
+        "status": "Already in Library"
+      }
+    ],
+    "motivation": [
+      {
+        "id": 11,
+        "url": "https://images.blinkist.io/images/books/60ffb6176cee070007f2f766/1_1/470.jpg",
+        "name": "The Power of Giving Away Power",
+        "author": "Matthew Barzun",
+        "readingTime": "12",
+        "totalReads": "7k",
+        "category": "Motivation",
+        "status": "Add to library"
+      },
+      {
+        "id": 12,
+        "url": "https://images.blinkist.io/images/books/60f14b996cee0700071a5fed/1_1/470.jpg",
+        "name": "How to enjoy you life and your job",
+        "author": "Rachel Cruze",
+        "readingTime": "15",
+        "totalReads": "9",
+        "category": "Motivation",
+        "status": "Add to library"
+      }
+    ],
+    "biography": [
+      {
+        "id": 13,
+        "url": "https://images.blinkist.io/images/books/60ddd90c6cee070007f2cac8/1_1/470.jpg",
+        "name": "You Are Your Best Thing: BY Tarana Burke",
+        "author": "Tarana Burke and Brené Brown",
+        "readingTime": "18",
+        "totalReads": "11k",
+        "category": "Biography",
+        "status": "Add to library"
+      },
+      {
+        "id": 14,
+        "url": "https://images.blinkist.io/images/books/60f14b996cee0700071a5fed/1_1/470.jpg",
+        "name": "A Year in the Life of William Shakespeare",
+        "author": "James Shapiro",
+        "readingTime": "13",
+        "totalReads": "8k",
+        "category": "Biography",
+        "status": "Add to library"
+      },
+      {
+        "id": 1,
+        "url": "https://images.blinkist.io/images/books/61290aa96cee070007d29076/1_1/470.jpg",
+        "name": "Bedtime Biography: Madame Curie",
+        "author": "Eve Curie",
+        "readingTime": "25",
+        "totalReads": "57.1k",
+        "category": "Biography",
+        "status": "Already in Library"
+      }
+    ]
+  }

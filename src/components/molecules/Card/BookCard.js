@@ -13,10 +13,10 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import "./BookCard.css";
 import CustomButton from "../../atoms/Button/CustomButton";
 
-
 const useStyles = makeStyles({
   root: {
     maxWidth: 200,
+    height: "420px",
   },
   media: {
     height: "200px",
@@ -24,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 export default function BookCard({
+  id,
   url,
   name,
   author,
@@ -32,15 +33,13 @@ export default function BookCard({
   status,
   category,
   changeStatus,
-  disabled
+  disabled,
 }) {
   const classes = useStyles();
 
-  
-
   return (
     <>
-      <div key={url} className="bookCard">
+      <div className="bookCard" key={id}>
         <Card className={classes.root}>
           <CardActionArea>
             <CardMedia className={classes.media} image={url} title="Book" />
@@ -52,7 +51,7 @@ export default function BookCard({
                 style={{ textAlign: "left", fontSize: "15px" }}
                 fontWeight="fontWeightBold"
               >
-                {name.length > 18? name.substring(0, 40) + "..." : name}
+                {name.length > 18 ? name.substring(0, 40) + "..." : name}
               </Typography>
               <Typography
                 variant="body2"
@@ -62,7 +61,7 @@ export default function BookCard({
               >
                 {author.length > 20 ? author.substring(0, 20) + "..." : author}
               </Typography>
-              <br/>
+              <br />
               <Typography
                 variant="caption"
                 color="textSecondary"
@@ -77,7 +76,7 @@ export default function BookCard({
             <Typography
               variant="caption"
               display="block"
-              style={{ fontSize: "8px" }}
+              style={{ fontSize: "10px" }}
               gutterBottom
             >
               {readingTime}-minute read
@@ -86,23 +85,29 @@ export default function BookCard({
             <Typography
               variant="caption"
               display="block"
-              style={{ fontSize: "8px" }}
+              style={{ fontSize: "10px" }}
               gutterBottom
             >
               {totalReads} reads
             </Typography>
           </CardActions>
 
-          {status!=='Already in Library' ?
-          <>
-          <hr />
-          <CustomButton value={status} variant="contained" disabled={disabled} click={changeStatus} style={{width: "100%"}}/> 
+          {status !== "Already in Library" ? (
+            <>
+              <hr />
+              <CustomButton
+                value={status}
+                variant="contained"
+                disabled={disabled}
+                click={changeStatus}
+                style={{ width: "100%" }}
+                
+              />
             </>
-          :
-          <></>
-           }
+          ) : (
+            <></>
+          )}
         </Card>
-       
       </div>
     </>
   );

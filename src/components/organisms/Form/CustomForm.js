@@ -15,23 +15,18 @@ import "./CustomForm.css";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginTop: 25,
-    // minWidth: 120,
-  },
-  selectEmpty: {
-    // marginTop: theme.spacing(2),
   },
 }));
 
 const CustomForm = ({ openForm, closeForm, formData }) => {
   const classes = useStyles();
 
-  const [url, setUrl] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [author, setAuthor] = React.useState('');
-  const [readingTime, setReadingTime] = React.useState('');
-  const [totalReads, setTotalReads] = React.useState('');
-  const [category, setCategory] = React.useState('');
-  
+  const [url, setUrl] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [author, setAuthor] = React.useState("");
+  const [readingTime, setReadingTime] = React.useState("");
+  const [totalReads, setTotalReads] = React.useState("");
+  const [category, setCategory] = React.useState("");
 
   const handleUrl = (event) => {
     setUrl(event.target.value);
@@ -52,9 +47,6 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
     setCategory(event.target.value);
   };
 
-
-
-
   // const inputsHandler = (e) => {
   //   console.log(e.target.name+" "+e.target.value);
   //   setInputField({ [e.target.name]: e.target.value });
@@ -68,9 +60,10 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
       readingTime: readingTime,
       totalReads: totalReads,
       category: category,
-      status: "Add to Library"
+      status: "Add to Library",
+      id: Math.random(),
     };
-    formData(book)
+    formData(book);
     closeForm();
     setAuthor("");
     setCategory("");
@@ -79,7 +72,6 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
     setTotalReads("");
     setUrl("");
     e.preventDefault();
-    
   };
   return (
     <div>
@@ -131,7 +123,7 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
                 name="author"
                 value={author}
                 change={handleAuthor}
-                />
+              />
             </label>
 
             <br />
@@ -159,7 +151,7 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
 
             <br />
             <label>
-              {" "}
+            
               Category
               <FormControl variant="outlined" className={classes.formControl}>
                 <Select
@@ -170,11 +162,13 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
                   onChange={handleCategory}
                   style={{
                     marginLeft: "-66px",
-                    width: "235px",
+                    width: "220px",
                     height: "40px",
                   }}
                 >
-                  <MenuItem value={"Entrepreneurship"}>Entrepreneurship</MenuItem>
+                  <MenuItem value={"Entrepreneurship"} data-testid="Entrepreneurship">
+                    Entrepreneurship
+                  </MenuItem>
                   <MenuItem value={"Nature"}>Nature</MenuItem>
                   <MenuItem value={"Religion"}>Religion</MenuItem>
                   <MenuItem value={"Money"}>Money</MenuItem>
@@ -185,7 +179,7 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
             </label>
             <br />
             <div style={{ float: "right", marginTop: "5px" }}>
-              <CustomButton type="submit" value="Submit" click={handleSubmit}/>
+              <CustomButton type="submit" value="Submit" click={handleSubmit} />
             </div>
           </form>
         </DialogContent>

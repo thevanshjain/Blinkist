@@ -16,8 +16,9 @@ function TabPanel(props) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
+      id={`simple-tabpanel-${index}`}
+      // id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -37,8 +38,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
+    id: `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tab-${index}`,
   };
 }
 
@@ -47,94 +48,78 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     color: "green",
     textColor: "green",
-    textDecorationColor:"green",
+    textDecorationColor: "green",
     width: 680,
   },
 }));
 
-export default function StatusTabs({ search, explorerStatus}) {
+export default function StatusTabs({ search, explorerStatus }) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const [searchValueCurrent, setSearchValueCurrent] = useState();
   const [searchValueFinish, setSearchValueFinish] = useState();
 
-  const [current, setCurrent] = useState([
-    {
-      url: "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
-      name: "How to Take Smart Notes",
-      author: "Sönke Ahrens",
-      readingTime: "15",
-      totalReads: "17.1k",
-      category: "Entrepreneurship",
-    },
-    {
-      url:
-        "https://images.blinkist.io/images/books/61290aa96cee070007d29076/1_1/470.jpg",
-      name: "Bedtime Biography: Madame Curie",
-      author: "Eve Curie",
-      readingTime: "25",
-      totalReads: "57.1k",
-      category: "Biography",
-    },
-  ]);
+  const [current, setCurrent] = useState(null);
+  const [finished, setFinished] = useState(null);
 
-  const [finished, setFinished] = useState([
-    {
-      url:
-        "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
-      name: "Make Money Trading Options",
-      author: "Michael Sincere",
-      readingTime: "30",
-      totalReads: "1.1k",
-      category: "Money",
-    },
-  ]);
+  useEffect(() => {
 
-useEffect(() => {
-  if(explorerStatus!==null)
-  setCurrent(prev=>[...prev, explorerStatus.data])
- 
-}, [explorerStatus])
+    const abortController = new AbortController();
 
-  // React.useEffect(() => {
-  //   if (explore !== null) {
-  //     const booksFoundCurrent = current.filter(
-  //       (item) => item.category.toLowerCase() === explore.toLowerCase()
-  //     );
-  //     const booksFoundFinished = finished.filter(
-  //       (item) => item.category.toLowerCase() === explore.toLowerCase()
-  //     );
-  //     setExploreValueCurrent(booksFoundCurrent.length);
-  //     setExploreValueFinish(booksFoundFinished.length);
 
-  //   }
-  // }, [explore, current, finished]);
+    fetch("http://localhost:8008/current", {signal: abortController.signal})
+      .then((res) => res.json())
+      .then((data) => setCurrent(data))
+      .catch(err => {
+        if(err.name === 'AbortError'){
+          console.log("Fetch Aborted");
+        }
+      });
+    fetch("http://localhost:8008/finish", {signal: abortController.signal})
+      .then((res) => res.json())
+      .then((data) => setFinished(data))
+      .catch(err => {
+        if(err.name === 'AbortError'){
+          console.log("Fetch Aborted");
+        }
+      });
+
+      return () => abortController.abort();
+  }, []);
+
+  useEffect(() => {
+    if (explorerStatus !== null && current !== null && explorerStatus.data!==undefined && current!==undefined) {
+      fetch("http://localhost:8008/current", {
+        method: "POST",
+        body: JSON.stringify(explorerStatus.data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+  }, [explorerStatus, current]);
 
   React.useEffect(() => {
-    if (search !== null) {
+    if (search !== null && current && finished) {
+      search=search.trim();
       const booksFoundCurrent = current.filter(
         (item) =>
           item.author.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
           item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
       );
       setSearchValueCurrent(booksFoundCurrent);
-      
+
       const booksFoundFinished = finished.filter(
         (item) =>
           item.author.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
           item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
       );
-      
+
       setSearchValueFinish(booksFoundFinished);
     }
   }, [search, current, finished]);
 
-  // React.useEffect(() => {
-  //   if (newBook !== null) {
-  //     current.push(newBook);
-  //   }
-  // }, [newBook]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -144,25 +129,37 @@ useEffect(() => {
     setValue(index);
   };
 
-  const changeStatus = (url, status) => {
-    if (status === "reading") {
-      const pos = current
-        .map(function (e) {
-          return e.url;
-        })
-        .indexOf(url);
-      setFinished((prev) => [...prev, current[pos]]);
-      current.splice(pos, 1);
-      setCurrent(current);
-    } else {
-      const pos = finished
-        .map(function (e) {
-          return e.url;
-        })
-        .indexOf(url);
-      setCurrent((prev) => [...prev, finished[pos]]);
-      finished.splice(pos, 1);
-      setFinished(finished);
+  const changeStatus = (data, status) => {
+    if (status === "reading" && current !== null && data !== null && current!==undefined && finished!==undefined) {
+      const pos = current.indexOf(data);
+      //  console.log(current[pos]+" "+data.id);
+
+      fetch("http://localhost:8008/finish", {
+        method: "POST", // or 'PUT'https://example.com/profile
+        body: JSON.stringify(current[pos]),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      fetch(`http://localhost:8008/current/${data.id}`, {
+        method: "DELETE",
+      });
+
+      window.location.reload();
+    } else if (finished !== null && data !== null    && current!==undefined && finished!==undefined) {
+      const pos = finished.indexOf(data);
+      fetch("http://localhost:8008/current", {
+        method: "POST", // or 'PUT'https://example.com/profile
+        body: JSON.stringify(finished[pos]),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      fetch(`http://localhost:8008/finish/${data.id}`, {
+        method: "DELETE",
+      });
+
+      window.location.reload();
     }
   };
 
@@ -172,28 +169,29 @@ useEffect(() => {
         position="static"
         color="default"
         style={{ background: "none", boxShadow: "none", color: "green" }}
+        data-testid='cardInStatus'
       >
         <Tabs
           value={value}
           TabIndicatorProps={{
             style: {
               backgroundColor: "#22C870",
-              color: "#22C870"
+              color: "#22C870",
             },
           }}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          variant="standard"
+          // aria-label="full width tabs example"
         >
           <Tab
-            style={{ color:"black", textTransform: "none", width: "286.33px" }}
+            style={{ color: "black", textTransform: "none" }}
             label="Currently Reading"
             {...a11yProps(0)}
           />
           <Tab
-            style={{ color:"black", textTransform: "none" }}
+            style={{ color: "black", textTransform: "none" }}
             label="Finished"
             {...a11yProps(1)}
           />
@@ -206,44 +204,54 @@ useEffect(() => {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           {/* {current.length === 0 || */}
-          {search!==null && searchValueCurrent !== undefined && searchValueCurrent!==null ? (
-            searchValueCurrent.map((data) => {
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status="Finished Reading"
-                  category={data.category}
-                  changeStatus={() => changeStatus(data.url, "reading")}
-                />
-              );
-            })
-          ) : (
-            current.map((data) => {
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status="Finished Reading"
-                  category={data.category}
-                  changeStatus={() => changeStatus(data.url, "reading")}
-                />
-              );
-            })
-          )}
+          {current && current!==undefined &&
+          search !== null &&
+          searchValueCurrent !== undefined &&
+          searchValueCurrent !== null
+            ? searchValueCurrent.map((data) => {
+                return (
+                  <BookCard
+                    id={data.id}
+                    author={data.author}
+                    name={data.name}
+                    readingTime={data.readingTime}
+                    totalReads={data.totalReads}
+                    url={data.url}
+                    status="Finished Reading"
+                    category={data.category}
+                    changeStatus={() => changeStatus(data, "reading")}
+                  />
+                );
+              })
+            : current && current!==undefined &&
+              current.map((data) => {
+
+                <span data-testid={`status-${data.id}`}></span>
+                return (
+                  <BookCard
+                    id={data.id}
+                    author={data.author}
+                    name={data.name}
+                    readingTime={data.readingTime}
+                    totalReads={data.totalReads}
+                    url={data.url}
+                    status="Finished Reading"
+                    category={data.category}
+                    changeStatus={() => changeStatus(data, "reading")}
+                  />
+                );
+              })}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           {/* {finished.length === 0 || */}
-          {search!==null && searchValueFinish!== undefined && searchValueFinish!==null ? (
-              searchValueFinish.map((data) => {
+          {finished && finished!==undefined &&
+          search !== null &&
+          searchValueFinish !== undefined &&
+          searchValueFinish !== null
+            ? searchValueFinish.map((data) => {
                 return (
                   <BookCard
+                    id={data.id}
                     author={data.author}
                     name={data.name}
                     readingTime={data.readingTime}
@@ -251,25 +259,26 @@ useEffect(() => {
                     url={data.url}
                     status="Read again"
                     category={data.category}
-                    changeStatus={() => changeStatus(data.url, "finish")}
+                    changeStatus={() => changeStatus(data, "finish")}
                   />
-                )})
-          ) : (
-            finished.map((data) => {
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status="Read again"
-                  category={data.category}
-                  changeStatus={() => changeStatus(data.url, "finish")}
-                />
-              );
-            })
-          )}
+                );
+              })
+            : finished && finished!==undefined &&
+              finished.map((data) => {
+                return (
+                  <BookCard
+                    id={data.id}
+                    author={data.author}
+                    name={data.name}
+                    readingTime={data.readingTime}
+                    totalReads={data.totalReads}
+                    url={data.url}
+                    status="Read again"
+                    category={data.category}
+                    changeStatus={() => changeStatus(data, "finish")}
+                  />
+                );
+              })}
         </TabPanel>
       </SwipeableViews>
     </div>

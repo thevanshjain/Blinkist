@@ -1,4 +1,15 @@
 .bookCard {
     display: inline-block;
-    margin: 5px;    
+    margin-left: 4px;    
+    margin-right:4px;    
+    margin-bottom:10px;  
   }
+
+.bookCard:nth-child(3n+1) {
+  margin-left: -10px;
+}
+.MuiCard-root{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

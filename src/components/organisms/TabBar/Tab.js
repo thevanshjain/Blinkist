@@ -4,7 +4,7 @@ import Image from "../../atoms/Image/Image";
 import img from "../../atoms/Image/Image.png";
 import SearchLogo from "../../atoms/Search/SearchLogo";
 import CustomForm from "../Form/CustomForm";
-import Explorer from "../../molecules/Explorer/Explorer";
+import Explorer from "../Explorer/Explorer";
 import BarButton from "../../atoms/Button/BarButton";
 import CustomInput from "../../atoms/Input/CustomInput";
 import LoginButton from "../../atoms/Button/LoginButton";
@@ -14,11 +14,13 @@ import "./Tab.css";
 import StatusTabs from "../StatusTabs/StatusTabs";
 
 import BookCard from "../../molecules/Card/BookCard";
+import AvatarOnBar from "../../atoms/Avatar/Avatar";
+import Header from "../../atoms/Header/Header";
 
 function Tab() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openForm, setOpenForm] = useState(false);
-  const { user, isAuthenticated } = useAuth0();
+  const {isAuthenticated, logout , loginWithRedirect, user} = useAuth0();
   const [exploredValue, setExploredValue] = useState(null);
   const [searchedValue, setSearchedValue] = useState(null);
   const [newBook, setNewBook] = useState(null);
@@ -49,32 +51,37 @@ function Tab() {
   };
 
   const changeStatus = (category, data) => {
-    setExplorerStatus({category: category, data:data});
+    setExplorerStatus({ category: category, data: data });
   };
 
   const myLibrary = () => {
     setToggleLibrary(true);
   };
-  useEffect(() => {
-    
-  }, [newBook, exploredValue])
+  useEffect(() => {}, [newBook, exploredValue]);
   return (
     <>
-      <div style={{ float: "right", color: "black", marginTop: "13px" , marginRight: "150px"}}>
+      <div
+        style={{
+          float: "right",
+          color: "black",
+          marginTop: "13px",
+          marginRight: "150px",
+        }}
+      >
         {isAuthenticated ? (
           <h4 style={{ display: "inline" }}>
-            {user.given_name}{" "}
+            <AvatarOnBar user={user}/>
             <span className="logOutButton">
-              <LogoutButton />
+              <LogoutButton click={()=>logout({returnTo: window.location.origin})}/>
             </span>
           </h4>
         ) : (
-          <LoginButton />
+          <LoginButton click={()=>loginWithRedirect()}/>
         )}
       </div>
       <AppBar
         position="static"
-        style={{ background: "none", boxShadow: "none", display: "inline"}}
+        style={{ background: "none", boxShadow: "none", display: "inline" }}
       >
         <Toolbar>
           <Image src={img} alt="logo" />
@@ -100,6 +107,7 @@ function Tab() {
               variant="standard"
               placeholder="Search"
               change={(value) => searchValue(value)}
+              style={{width:"40%"}}
             />
           )}
         </Toolbar>
@@ -107,84 +115,59 @@ function Tab() {
 
       {toggleLibrary ? (
         <>
-          <h2 style={{ marginTop: "50px", marginLeft:"10px" }}> My Library </h2>
-          <div style={{ marginTop: "40px" }}>
-            <StatusTabs search={searchedValue} explorerStatus={explorerStatus}/>
+          <h5 style={{ marginTop: "50px", marginLeft: "30px" }}>
+            <Header heading="My Library"/>
+          </h5>
+          <div style={{ marginTop: "40px", marginLeft: "30px" }}>
+            <StatusTabs
+              search={searchedValue}
+              explorerStatus={explorerStatus}
+            />
           </div>
         </>
       ) : (
         <>
-        {exploredValue!==null ?
+          {exploredValue !== null ? (
             <>
-         <h2 style={{ marginTop: "50px" }}> {exploredValue[0].category} </h2>
-          <div style={{ marginTop: "40px" }}>
-            {exploredValue.map((data) => {
-              if(data.status==='Already in Library')
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status={data.status}
-                  category={data.category}
-                  disabled="disabled"
-                />
-              );
-              else
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status={data.status}
-                  category={data.category}
-                  changeStatus={()=>changeStatus(data.category, data)}
-                />
-              );
-
-            })}
-          </div>
-        </>:<></>
-        }
-    </>
-    )}
-      {/* {exploredValue === null ? (
-        <>
-          <h2 style={{ marginTop: "50px" }}> My Library </h2>
-          <div style={{ marginTop: "40px" }}>
-            <StatusTabs search={searchedValue} newBook={newBook} />
-          </div>
+              <div style={{ marginTop: "50px", marginLeft: "30px" }}>
+                <Header heading={exploredValue[0].category}/>
+              </div>
+              <div style={{ marginTop: "40px", marginLeft: "30px"}}>
+                {exploredValue.map((data) => {
+                  if (data.status === "Already in Library")
+                    return (
+                      <BookCard
+                        author={data.author}
+                        name={data.name}
+                        readingTime={data.readingTime}
+                        totalReads={data.totalReads}
+                        url={data.url}
+                        status={data.status}
+                        category={data.category}
+                        disabled="disabled"
+                      />
+                    );
+                  else
+                    return (
+                      <BookCard
+                        author={data.author}
+                        name={data.name}
+                        readingTime={data.readingTime}
+                        totalReads={data.totalReads}
+                        url={data.url}
+                        status={data.status}
+                        category={data.category}
+                        changeStatus={() => changeStatus(data.category, data)}
+                      />
+                    );
+                })}
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </>
-      ) : (
-        <>
-          <h2 style={{ marginTop: "50px" }}> {exploredValue[0].category} </h2>
-          <div style={{ marginTop: "40px" }}>
-            {exploredValue.map((data) => {
-              return (
-                <BookCard
-                  author={data.author}
-                  name={data.name}
-                  readingTime={data.readingTime}
-                  totalReads={data.totalReads}
-                  url={data.url}
-                  status={data.status}
-                  category={data.category}
-                  changeStatus={() => changeStatus(data.url)}
-                />
-              );
-            })}
-          </div>
-        </>
-      )} */}
-      {/* <h2 style={{ marginTop: "50px" }}> My Library </h2>
-      <div style={{ marginTop: "40px" }}> */}
-
-      {/* <StatusTabs explore={exploredValue} search={searchedValue} newBook={newBook}/> */}
-      {/* </div> */}
+      )}
     </>
   );
 }
