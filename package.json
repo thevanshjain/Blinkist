@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
@@ -70,7 +70,9 @@
   "jest":{
     "coveragePathIgnorePatterns":[
       "^.*.(stories.js)$",
-      "Theme.js"
+      "src/Theme.js",
+      "src/index.js",
+      "src/reportWebVitals.js"
     ]
   }
 }

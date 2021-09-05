@@ -88,13 +88,14 @@ function Tab() {
           <SearchLogo onClick={() => toggleSearch()} />
           {!openSearchBar && (
             <>
-              <Explorer
+              {isAuthenticated ? <Explorer
                 addBook={newBook}
                 exploredValue={(value) => explorerValue(value)}
                 explorerStatus={explorerStatus}
-              />
+              /> :<></>}
+              
               <BarButton value="My Library" click={myLibrary} />
-              <BarButton value="Add Book" click={handleOpen} />
+              {isAuthenticated ? <BarButton value="Add Book" click={handleOpen} /> : <></>}
               <CustomForm
                 openForm={openForm}
                 closeForm={handleClose}

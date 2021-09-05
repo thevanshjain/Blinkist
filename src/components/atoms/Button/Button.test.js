@@ -21,13 +21,7 @@ describe("Testing Button", ()=>{
       expect(mockClicking).toBeCalled();
 
   });
-  const logoutAuth= () => {
-    return(
-      <Auth0Provider>
-        <LogoutButton />
-      </Auth0Provider>
-    );
-  }
+
   describe("testing log in/out button",()=>{
     it('login in button has value', () => {
       render(<LoginButton />);

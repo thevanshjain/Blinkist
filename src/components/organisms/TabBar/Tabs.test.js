@@ -1,6 +1,21 @@
-import { EcoSharp } from '@material-ui/icons';
+
 import { fireEvent, render, screen } from '@testing-library/react';
 import Tab from './Tab';
+import "@testing-library/jest-dom/extend-expect";
+
+jest.mock('@auth0/auth0-react', () => ({
+  Auth0Provider: ({ children }) => children,
+  withAuthenticationRequired: ((component, _) => component),
+  useAuth0: () => {
+    return {
+      isLoading: false,
+      user: { sub: "foobar" },
+      isAuthenticated: true,
+      loginWithRedirect: jest.fn()
+    }
+  }
+}));
+
 
 test('should have same heading', () => {
   render(<Tab />);
@@ -52,10 +67,11 @@ test("search input should enter value", async ()=>{
 test("should show explore value", async ()=>{
   render(<Tab/>)
   
-  const explorer=screen.getByRole("button", { name: /explore/i} );
+  const explorer=await screen.findByRole("button", { name: /explore/i} );
   fireEvent.click(explorer);
-  const searchExplorer= await screen.findByRole("button",{name: /nature/i});
-  fireEvent.click(searchExplorer);
-  const library=screen.getByRole("button", { name: /My library/i} );
-  fireEvent.click(library);
+  const searchExplorer= await screen.findByRole("button",{name: /motivation/i});
+  fireEvent.click(searchExplorer);  
+
+
 })
+
