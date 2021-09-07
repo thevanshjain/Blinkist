@@ -8,6 +8,8 @@ function App() {
     // | 'sm'
     // | 'xl'
     // | 'xs'
+
+// npx json-server --watch data/db.json --port 8008
     <ThemeProvider theme={Theme}>
       <Container data-testid="appContainer" maxWidth="md" style={{ marginLeft: "220px" }}>
         <Tab />

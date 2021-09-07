@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import Tab from './Tab';
 import "@testing-library/jest-dom/extend-expect";
 
+
 jest.mock('@auth0/auth0-react', () => ({
   Auth0Provider: ({ children }) => children,
   withAuthenticationRequired: ((component, _) => component),

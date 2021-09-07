@@ -60,6 +60,12 @@ function Explorer({ exploredValue, addBook, explorerStatus }) {
   const [motivation, setMotivation] = useState(null);
   const [biography, setBiography] = useState(null);
 
+  const abortError= (err) => {
+    if (err.name === "AbortError") {
+      console.log("Fetch Aborted");
+    }
+  }
+
   useEffect(() => {
     const abortController = new AbortController();
     fetch("http://localhost:8008/entrepreneurship", {
@@ -68,52 +74,44 @@ function Explorer({ exploredValue, addBook, explorerStatus }) {
       .then((res) => res.json())
       .then((data) => setEntrepreneurship(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
       });
-    fetch("http://localhost:8008/nature", { signal: abortController.signal })
+      fetch("http://localhost:8008/nature", { signal: abortController.signal })
       .then((res) => res.json())
       .then((data) => setNature(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
       });
-    fetch("http://localhost:8008/religion", { signal: abortController.signal })
+      fetch("http://localhost:8008/religion", { signal: abortController.signal })
       .then((res) => res.json())
       .then((data) => setReligion(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
+        
       });
-    fetch("http://localhost:8008/money", { signal: abortController.signal })
+      fetch("http://localhost:8008/money", { signal: abortController.signal })
       .then((res) => res.json())
       .then((data) => setMoney(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
+        
       });
-    fetch("http://localhost:8008/motivation", {
-      signal: abortController.signal,
-    })
+      fetch("http://localhost:8008/motivation", {
+        signal: abortController.signal,
+      })
       .then((res) => res.json())
       .then((data) => setMotivation(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
+        
       });
-
-    fetch("http://localhost:8008/biography", { signal: abortController.signal })
+      
+      fetch("http://localhost:8008/biography", { signal: abortController.signal })
       .then((res) => res.json())
       .then((data) => setBiography(data))
       .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("Fetch Aborted");
-        }
+        abortError(err);
+        
       });
 
     return () => abortController.abort();
@@ -131,7 +129,6 @@ function Explorer({ exploredValue, addBook, explorerStatus }) {
 
   const handleExplore = (event) => {
     handleClose();
-    // exploredValue(event);
 
     if (event === "entrepreneurship") exploredValue(entrepreneurship);
     else if (event === "nature") exploredValue(nature);
@@ -139,15 +136,13 @@ function Explorer({ exploredValue, addBook, explorerStatus }) {
     else if (event === "motivation") exploredValue(motivation);
     else if (event === "money") exploredValue(money);
     else if (event === "biography") exploredValue(biography);
-    // else exploredValue(null);
+   
   };
 
   useEffect(() => {
     if (addBook !== null) {
-      //  console.log(`http://localhost:8008/${addBook.category.toLowerCase()}`);
-
       fetch(`http://localhost:8008/${addBook.category.toLowerCase()}`, {
-        method: "POST", // or 'PUT'https://example.com/profile
+        method: "POST", 
         body: JSON.stringify(addBook),
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +170,6 @@ function Explorer({ exploredValue, addBook, explorerStatus }) {
           "Content-Type": "application/json",
         },
       });
-      //  window.location.reload();
     }
   }, [
     explorerStatus,

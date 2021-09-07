@@ -47,10 +47,7 @@ const CustomForm = ({ openForm, closeForm, formData }) => {
     setCategory(event.target.value);
   };
 
-  // const inputsHandler = (e) => {
-  //   console.log(e.target.name+" "+e.target.value);
-  //   setInputField({ [e.target.name]: e.target.value });
-  // };
+
 
   const handleSubmit = (e) => {
     const book = {

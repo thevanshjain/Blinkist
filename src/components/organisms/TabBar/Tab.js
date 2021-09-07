@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Image from "../../atoms/Image/Image";
 import img from "../../atoms/Image/Image.png";
@@ -14,13 +14,13 @@ import "./Tab.css";
 import StatusTabs from "../StatusTabs/StatusTabs";
 
 import BookCard from "../../molecules/Card/BookCard";
-import AvatarOnBar from "../../atoms/Avatar/Avatar";
+import AvatarOnBar from "../../atoms/Avatar/AvatarOnBar";
 import Header from "../../atoms/Header/Header";
 
 function Tab() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openForm, setOpenForm] = useState(false);
-  const {isAuthenticated, logout , loginWithRedirect, user} = useAuth0();
+  const { isAuthenticated, logout, loginWithRedirect, user  } = useAuth0();
   const [exploredValue, setExploredValue] = useState(null);
   const [searchedValue, setSearchedValue] = useState(null);
   const [newBook, setNewBook] = useState(null);
@@ -44,7 +44,7 @@ function Tab() {
   };
 
   const searchValue = (event) => {
-    setSearchedValue(event.target.value);
+    setSearchedValue(event.target.value.trim());
   };
   const manipulateForm = (data) => {
     setNewBook(data);
@@ -57,7 +57,21 @@ function Tab() {
   const myLibrary = () => {
     setToggleLibrary(true);
   };
-  useEffect(() => {}, [newBook, exploredValue]);
+
+
+  const exploreBookCard = (data,status) => {
+    return( <BookCard
+      author={data.author}
+      name={data.name}
+      readingTime={data.readingTime}
+      totalReads={data.totalReads}
+      url={data.url}
+      status={status}
+      category={data.category}
+      disabled="disabled"
+    />);
+  }
+
   return (
     <>
       <div
@@ -70,13 +84,15 @@ function Tab() {
       >
         {isAuthenticated ? (
           <h4 style={{ display: "inline" }}>
-            <AvatarOnBar user={user}/>
+            <AvatarOnBar user={user} />
             <span className="logOutButton">
-              <LogoutButton click={()=>logout({returnTo: window.location.origin})}/>
+              <LogoutButton
+                click={() => logout({ returnTo: window.location.origin })}
+              />
             </span>
           </h4>
         ) : (
-          <LoginButton click={()=>loginWithRedirect()}/>
+          <LoginButton click={() => loginWithRedirect()} />
         )}
       </div>
       <AppBar
@@ -85,17 +101,21 @@ function Tab() {
       >
         <Toolbar>
           <Image src={img} alt="logo" />
-          <SearchLogo onClick={() => toggleSearch()} />
+          {isAuthenticated && <SearchLogo onClick={() => toggleSearch()} />}
           {!openSearchBar && (
             <>
-              {isAuthenticated ? <Explorer
+              <Explorer
                 addBook={newBook}
                 exploredValue={(value) => explorerValue(value)}
                 explorerStatus={explorerStatus}
-              /> :<></>}
+              />
+              {isAuthenticated && 
+                <>
+                  <BarButton value="My Library" click={myLibrary} />
+                  <BarButton value="Add Book" click={handleOpen} />
+                </>
               
-              <BarButton value="My Library" click={myLibrary} />
-              {isAuthenticated ? <BarButton value="Add Book" click={handleOpen} /> : <></>}
+               } 
               <CustomForm
                 openForm={openForm}
                 closeForm={handleClose}
@@ -108,16 +128,16 @@ function Tab() {
               variant="standard"
               placeholder="Search"
               change={(value) => searchValue(value)}
-              style={{width:"40%"}}
+              style={{ width: "40%" }}
             />
           )}
         </Toolbar>
       </AppBar>
 
-      {toggleLibrary ? (
+      {toggleLibrary && isAuthenticated ? (
         <>
           <h5 style={{ marginTop: "50px", marginLeft: "30px" }}>
-            <Header heading="My Library"/>
+            <Header heading="My Library" />
           </h5>
           <div style={{ marginTop: "40px", marginLeft: "30px" }}>
             <StatusTabs
@@ -128,44 +148,41 @@ function Tab() {
         </>
       ) : (
         <>
-          {exploredValue !== null ? (
+          {exploredValue !== null && (
             <>
               <div style={{ marginTop: "50px", marginLeft: "30px" }}>
-                <Header heading={exploredValue[0].category}/>
+                <Header heading={exploredValue[0].category+" books"} />
               </div>
-              <div style={{ marginTop: "40px", marginLeft: "30px"}}>
+              <div style={{ marginTop: "40px", marginLeft: "30px" }}>
                 {exploredValue.map((data) => {
-                  if (data.status === "Already in Library")
+                  if (!isAuthenticated) {
                     return (
-                      <BookCard
-                        author={data.author}
-                        name={data.name}
-                        readingTime={data.readingTime}
-                        totalReads={data.totalReads}
-                        url={data.url}
-                        status={data.status}
-                        category={data.category}
-                        disabled="disabled"
-                      />
+                      exploreBookCard(data,"Please sign in first")
                     );
-                  else
-                    return (
-                      <BookCard
-                        author={data.author}
-                        name={data.name}
-                        readingTime={data.readingTime}
-                        totalReads={data.totalReads}
-                        url={data.url}
-                        status={data.status}
-                        category={data.category}
-                        changeStatus={() => changeStatus(data.category, data)}
-                      />
-                    );
-                })}
+                  } else {
+                    if (data.status === "Already in Library")
+                      return (
+                        exploreBookCard(data,data.status)
+                       
+                      );
+                    else
+                      return (
+                        <BookCard
+                          author={data.author}
+                          name={data.name}
+                          readingTime={data.readingTime}
+                          totalReads={data.totalReads}
+                          url={data.url}
+                          status={data.status}
+                          category={data.category}
+                          changeStatus={() => changeStatus(data.category, data)}
+                        />
+                      );
+                  }})}
+
+                
               </div>
             </>
-          ) : (
-            <></>
           )}
         </>
       )}

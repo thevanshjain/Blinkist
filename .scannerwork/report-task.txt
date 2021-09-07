@@ -1,0 +1,7 @@
+organization=thevansh
+projectKey=Blinkist_Vansh_01
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.23105
+dashboardUrl=https://sonarcloud.io/dashboard?id=Blinkist_Vansh_01
+ceTaskId=AXu-J_fcppieh8dlmA0c
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXu-J_fcppieh8dlmA0c

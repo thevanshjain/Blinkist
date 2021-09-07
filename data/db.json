@@ -1,13 +1,35 @@
 {
   "current": [
     {
-      "id": 20,
-      "url": "https://images.blinkist.io/images/books/60fe5b446cee0700070a51c1/1_1/470.jpg",
-      "name": "How to Take Smart Notes: By Sönke Ahrens",
-      "author": "Sönke Ahrens",
+      "id": 4,
+      "url": "https://images.blinkist.io/images/books/61162f886cee070007535b4d/1_1/470.jpg",
+      "name": "The Common Path to Uncommon Success",
+      "author": "John Lee Dumas",
       "readingTime": "15",
-      "totalReads": "17.1k",
+      "totalReads": "7.1k",
       "category": "Entrepreneurship",
+      "status": "Already in Library"
+    },
+    {
+      "id": 5,
+      "url": "https://images.blinkist.io/images/books/611fc0e96cee070007060334/1_1/470.jpg",
+      "name": "This Is Your Mind on Plants",
+      "author": "Michael Pollan",
+      "readingTime": "13",
+      "totalReads": "8k",
+      "category": "Nature",
+      "status": "Already in Library"
+    }
+  ],
+  "finish": [
+    {
+      "id": 6,
+      "url": "https://images.blinkist.io/images/books/61162f886cee070007535b4d/1_1/470.jpg",
+      "name": "Finding the Mother Tree: By Suzanne Simard",
+      "author": "Suzanne Simard",
+      "readingTime": "16",
+      "totalReads": "10k",
+      "category": "Nature",
       "status": "Already in Library"
     },
     {
@@ -19,11 +41,7 @@
       "totalReads": "57.1k",
       "category": "Biography",
       "status": "Already in Library"
-    }
-   
-   
-  ],
-  "finish": [
+    },
     {
       "id": 2,
       "url": "https://images.blinkist.io/images/books/60c346ca6cee070007f8b08c/1_1/470.jpg",
@@ -44,7 +62,7 @@
       "readingTime": "12",
       "totalReads": "7.1k",
       "category": "Entrepreneurship",
-      "status": "Add to library"
+      "status": "Already in Library"
     },
     {
       "id": 20,
@@ -64,7 +82,7 @@
       "readingTime": "15",
       "totalReads": "7.1k",
       "category": "Entrepreneurship",
-      "status": "Add to library"
+      "status": "Already in Library"
     }
   ],
   "nature": [
@@ -76,7 +94,7 @@
       "readingTime": "13",
       "totalReads": "8k",
       "category": "Nature",
-      "status": "Add to library"
+      "status": "Already in Library"
     },
     {
       "id": 6,
@@ -86,7 +104,7 @@
       "readingTime": "16",
       "totalReads": "10k",
       "category": "Nature",
-      "status": "Add to library"
+      "status": "Already in Library"
     }
   ],
   "religion": [

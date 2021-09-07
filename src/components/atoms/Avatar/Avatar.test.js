@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import AvatarOnBar from './Avatar';
+import AvatarOnBar from './AvatarOnBar';
 
 const user={
   given_name: "Vansh"
